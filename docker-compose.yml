@@ -29,3 +29,17 @@ services:
       - .docker/php/php.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       app-network:
+  db-mysql:
+    container_name: db-mysql
+    image: mysql
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=${DB_DATABASE}"
+      - "MYSQL_USER=root"
+      - "MYSQL_PASSWORD=${DB_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}"
+    ports:
+      - 8992:3306
+    networks:
+      app-network:
