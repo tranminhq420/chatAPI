@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Resources\UserCollection;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -40,9 +41,45 @@ class ChatroomController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function getUsers($id)
     {
-        //
+        $current = User::find($id);
+        $users = User::get(['id', 'username']);
+        $response = [
+            'users' => $users
+        ];
+        return response()->json($response)->header('Auth', $current->token);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getUsersRoom($id)
+    {
+        $users = User::with('rooms')->get();
+
+        $responses = array();
+        $response = array();
+        foreach ($users as $user) {
+            $response['id'] = $user->id;
+            $response['username'] = $user->username;
+            $response['rooms'] = array();
+            $rooms = $user->rooms()->get();
+            foreach ($rooms as $room) {
+                array_push($response['rooms'], $room->id);
+            }
+            $response['owned_rooms'] = array();
+            $ownedRooms = Room::select('rooms.id')->where('rooms.admin_id', '=', $user->id)->get();
+            foreach ($ownedRooms as $owned) {
+                array_push($response['owned_rooms'], $owned->id);
+            }
+            array_push($responses, $response);
+        }
+
+        return response()->json($responses);
     }
 
     /**
@@ -67,7 +104,7 @@ class ChatroomController extends Controller
             DB::rollback();
         }
         $response = [
-            'user' => $user,
+            // 'user' => $user,
             'message' => 'user_created',
         ];
         return response()->json($response);
