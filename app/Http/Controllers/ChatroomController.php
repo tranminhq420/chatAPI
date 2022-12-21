@@ -67,10 +67,9 @@ class ChatroomController extends Controller
             DB::rollback();
         }
         $response = [
-            'user' => $user,
             'message' => 'user_created',
         ];
-        return response()->json($response);
+        return response()->json($response)->header('Content-Type', 'application/json');
     }
 
     /**
