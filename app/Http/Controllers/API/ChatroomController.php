@@ -59,7 +59,7 @@ class ChatroomController extends Controller
      */
     public function getUsersRoom($id)
     {
-        $users = User::with('rooms')->get();
+        $users = User::with('rooms')->where('users.id', '=', $id)->get();
 
         $responses = array();
         $response = array();
@@ -107,7 +107,7 @@ class ChatroomController extends Controller
             // 'user' => $user,
             'message' => 'user_created',
         ];
-        return response()->json($response);
+        return response()->json($response)->header('Content-Type', 'application/json');
     }
 
     /**
