@@ -18,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/users', 'API\ChatroomController@createUser');
+Route::get('/users/{id}', 'API\ChatroomController@getUsersRoom');
+Route::get('/users/:userID', 'API\ChatroomController@getUsersRoom');

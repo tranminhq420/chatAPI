@@ -37,6 +37,7 @@ return new class extends Migration
             $table->foreign('admin_id')->references('id')->on('users');
         });
         Schema::create('room_user', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('room_id');
             $table->unsignedInteger('user_id');
         });
