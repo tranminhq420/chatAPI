@@ -11,6 +11,10 @@ class Room extends Model
     protected $visible = ['id'];
     public function users()
     {
-        return $this->belongsToMany('App\Models\User');
+        return $this->belongsToMany(User::class, 'room_user', 'room_id', 'user_id');
+    }
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 }

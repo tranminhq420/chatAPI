@@ -3,25 +3,27 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+// use Illuminate\Database\Eloquent\Casts\Attribute;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens, Notifiable;
 
 
 
-    public function getOwnedRoomsAttribute($value)
-    {
-        return $this->owners();
-    }
+    // public function getOwnedRoomsAttribute($value)
+    // {
+    //     return $this->owners();
+    // }
 
-    public function getRoomsAttribute($value)
-    {
-        return $this->rooms();
-    }
+    // public function getRoomsAttribute($value)
+    // {
+    //     return $this->rooms();
+    // }
 
 
 
@@ -29,7 +31,7 @@ class User extends Model
     // {
     //     return $this->hasMany(Room::class, 'admin_id', 'id');
     // }
-
+    protected $fillable = ['username', 'password'];
     public function messages()
     {
         return $this->hasMany(Message::class);
@@ -37,11 +39,10 @@ class User extends Model
 
     public function rooms()
     {
-        return $this->belongsToMany('App\Models\Room');
+        return $this->belongsToMany(Room::class, 'room_user', 'user_id', 'room_id');
     }
 
 
-
     // protected $appends = ['rooms', 'owned_rooms'];
-    protected $hidden = ['created_at', 'password', 'updated_at', 'token'];
+    protected $hidden = ['created_at', 'password', 'updated_at', 'rmb_token'];
 }

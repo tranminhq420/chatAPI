@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ChatController::class, 'index']);
+// Route::get('/', [ChatController::class, 'index']);
 // Route::get('messages','');
-// Route::get('/home', function () {
-//   return view('trytest');
-// });
+Route::get('/', function () {
+  return view('trytest');
+});

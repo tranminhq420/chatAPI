@@ -10,6 +10,10 @@ class Message extends Model
     use HasFactory;
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function rooms()
+    {
+        return $this->belongsTo(Room::class, 'room_id');
     }
 }
