@@ -31,24 +31,6 @@ class MessageController extends Controller
      */
     public function addMessage($roomId, $userId, Request $request)
     {
-        $tokenId = $request->header('Token');
-
-        $accessToken = DB::table('oauth_access_tokens')
-            ->where('id', $tokenId)
-            ->first();
-
-        if (!$accessToken) {
-            return response()->json([
-                'error' => 'Access token not found.',
-            ], 401);
-        }
-        // Check if the authenticated user is the user specified in the URL
-        if ($accessToken->user_id != $userId) {
-            return response()->json([
-                'error' => 'Unauthorized.',
-            ], 401);
-        }
-
         // Add the message to the room
         $message = new Message();
         $message->room_id = $roomId;

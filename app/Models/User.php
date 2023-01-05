@@ -3,34 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-// use Illuminate\Database\Eloquent\Casts\Attribute;
-use Laravel\Passport\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
-
-class User extends Authenticatable
+class User extends Model
 {
-    use HasFactory, HasApiTokens, Notifiable;
-
-
-
-    // public function getOwnedRoomsAttribute($value)
-    // {
-    //     return $this->owners();
-    // }
-
-    // public function getRoomsAttribute($value)
-    // {
-    //     return $this->rooms();
-    // }
-
-
-
-    // public function owners()
-    // {
-    //     return $this->hasMany(Room::class, 'admin_id', 'id');
-    // }
+    use HasFactory;
     protected $fillable = ['username', 'password'];
     public function messages()
     {

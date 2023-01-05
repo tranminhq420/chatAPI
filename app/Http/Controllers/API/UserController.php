@@ -5,18 +5,15 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Room;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            $this->user = Auth::user();
-            if (Auth::user() == null) return response(['message' => 'Unauthenticated']);
-            return $next($request);
-        });
-    }
 
 
     /**
@@ -25,14 +22,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getUsers()
+    public function getUsers($id)
     {
-        $current = User::find(Auth::user()->id);
+        $current = User::find($id);
         $users = User::get(['id', 'username']);
         $response = [
             'users' => $users
         ];
-        return response()->json($response)->header('Auth', $current->token);
+        return response()->json($response);
     }
 
     /**
@@ -65,7 +62,43 @@ class UserController extends Controller
         return response()->json($responses);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function createUser(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string|max:255',
+            'password' => 'required|string|min:6',
+        ]);
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        }
 
+        try {
+            DB::beginTransaction();
+            $user = new User();
+            $user->username = $request->username;
+            $user->password = Hash::make($request->password);
+            $user->rmb_token = Str::random(10);
+            $user->save();
+            DB::commit();
+        } catch (\Exception $exc) {
+            // return response(['error' => $exc->getMessage()]);
+            Log::info('Create user' . $exc);
+
+            DB::rollback();
+        }
+
+        $response = [
+            'message' => 'user_created',
+        ];
+        return response()->json($response);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -75,7 +108,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        if (Auth::user() == null) return response(['message' => 'Unauthenticated']);
         User::destroy($id);
         return response(['message' => 'User deleted']);
     }

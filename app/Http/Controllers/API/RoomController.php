@@ -8,31 +8,20 @@ use App\Models\Message;
 use App\Models\Room;
 use App\Http\Controllers\API\BaseController;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class RoomController extends BaseController
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-
-            $this->user = Auth::user();
-            if (Auth::user() == null) return response(['message' => 'Unauthenticated']);
-            return $next($request);
-        });
-    }
-
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function createRoom(Request $request)
+    public function createRoom(Request $request, $userID)
     {
         $room = new Room();
         $room->name = $request->name;
-        $room->admin_id = Auth::user()->id;
+        $room->admin_id = $userID;
         $response = ['message' => 'Room created'];
         $room->save();
         return response($response);
@@ -46,7 +35,6 @@ class RoomController extends BaseController
      */
     public function getRoom($id)
     {
-        if (Auth::user() == null) return response(['message' => 'Unauthenticated']);
         $room = Room::find($id);
         $response = [
             "rooms" => [
@@ -79,10 +67,9 @@ class RoomController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function getAllUserRoom()
+    public function getAllUserRoom($id)
     {
-        $current = Auth::user();
-        $users = User::find($current->id);
+        $users = User::find($id);
         $rooms = $users->rooms;
         $responses = array();
         $response = array();

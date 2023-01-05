@@ -9,7 +9,7 @@ volumes:
 services:
   webserver:
     image: nginx:1.21.6-alpine
-    container_name: webserver
+    container_name: webserver-hust
     restart: unless-stopped
     ports:
       - "80:80"
@@ -23,14 +23,14 @@ services:
     build:
       context: .docker/php
       dockerfile: dockerfile
-    container_name: backend
+    container_name: backend-hust
     volumes:
       - ./:/var/www
       - .docker/php/php.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       app-network:
   db-mysql:
-    container_name: db-mysql
+    container_name: db-mysql-hust
     image: mysql
     volumes:
       - named-vol:/var/lib/mysql
@@ -45,7 +45,7 @@ services:
       app-network:
   php-myadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: myadmin-work
+    container_name: myadmin-hust
     environment:
       - "PMA_HOST=db-mysql"
     ports:
