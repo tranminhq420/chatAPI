@@ -1,64 +1,229 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+POST - /api/users
+Creates a new user and returns a userID
+Header:
+Content-Type : application/json
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Body:
+{
+"username" : "%username%",
+"password" : "%password%"
+}
+Response body:
+{
+"message" : "User created"
+}
+GET - /api/users
+Returns a list of all users
+Header:
+Token : "%Auth Token%"
 
-## About Laravel
+Response body:
+{
+"users" : [
+{
+"id" : "%userID%",
+"username" : "%username%"
+}
+]
+}
+GET - /api/user/:userID
+Returns a user
+Header:
+Token : "%Auth Token%"
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Response body:
+{
+"user" : {
+"username" : "%username%",
+"id" : "%userID%",
+"ownedRooms" : [ "%roomID%" ],
+"rooms" : [ "%roomID%" ]
+}
+}
+DELETE - /api/user/:userID
+Deletes a user specified by the userID
+Header:
+Token : "%Auth Token%"
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Response body:
+{
+"message" : "User deleted"
+}
+POST - /api/tokens
+Authenticates user, establishes connection and returns a new tokenID
+Header:
+Content-Type : application/json
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Body:
+{
+"username" : "%username%",
+"password" : "%password%"
+}
+Response body:
+{
+"token" : "%tokenID",
+"message" : "Logged in"
+}
+GET - /api/token/:tokenID
+Returns token
+Header:
+Token : "%Auth Token%"
 
-## Learning Laravel
+Response body:
+{
+"token" : {
+"id": "%tokenID%",
+"username": "%username%",
+"expires": "%expiration date%"
+}
+}
+PUT - /api/token/:tokenID
+Extends token
+Header:
+Token : "%Auth Token%"
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Response body:
+{
+"message" : "Session extended"
+}
+DELETE - /api/token/:tokenID
+Deletes and invalidates token
+Header:
+Token : "%Auth Token%"
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Response body:
+{
+"message" : "Logged out"
+}
+POST - /api/rooms
+Creates a chat room
+Header:
+Token: %tokenID%
 
-## Laravel Sponsors
+Body:
+{
+"name" : "%room name%"
+}
+Response body:
+{
+"message" : "Room created"
+}
+GET - /api/rooms
+Gets all chat rooms
+Header:
+Token : "%Auth Token%"
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Response body:
+{
+"rooms" : [
+{
+"id" : "%roomID%",
+"name" : "%room name%",
+"joined": true
+}
+]
+}
+GET - /api/room/:roomID
+Get room
+Header:
+Token : "%Auth Token%"
 
-### Premium Partners
+Response Body:
+{
+"room": {
+"id": "%roomID%",
+"name": "%room name%",
+"admin": "%userID%",
+"users": [
+"%userID%"
+],
+"messages": [
+{
+"sender": "%user name%",
+"message": "%message%"
+}
+]
+}
+}
+DELETE - /api/room/:roomID
+Delete room
+Header:
+Token : %tokenID%
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Response body:
+{
+"message" : "Room deleted"
+}
+POST - /api/room/:roomID/users
+Add user to room
+Header:
+Token : %tokenID%
 
-## Contributing
+Body:
+{
+"user" : "%userID%",
+}
+Response body:
+{
+"message" : "Added user to room"
+}
+GET - /api/room/:roomID/users
+Get all users in room
+Header:
+Token : "%Auth Token%"
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Response body:
+{
+"users" : [
+{
+"id" : "%userID%",
+"username" : "%username%"
+}
+]
+}
+GET - /api/room/:roomID/messages
+Get all messages in room
+Header:
+Token : %tokenID%
 
-## Code of Conduct
+Response body:
+{
+"messages" : [
+{
+"id" : "%messageID%",
+"message" : "%message%",
+"author" : "%userID%",
+"time" : "%time sent%"
+}
+]
+}
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+GET - /api/room/:roomID/:userID/messages
+Get all messages by user in room
+Header:
+Token : %tokenID%
 
-## Security Vulnerabilities
+Response body:
+{
+"messages" : [
+{
+"id" : "%messageID%",
+"message" : "%message%",
+"author" : "%userID%",
+"time" : "%time sent%"
+}
+]
+}
+POST - /api/room/:roomID/:userID/messages
+Add message to room
+Header:
+Token : %tokenID%
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Body:
+{
+"message" : "%message%"
+}
+Response body:
+{
+"message" : "Message sent"
+}
