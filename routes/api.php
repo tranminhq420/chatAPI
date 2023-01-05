@@ -23,7 +23,7 @@ Route::group(['middleware' => ['cors', 'json.response', 'auth:api']], function (
   Route::get('/users', 'API\UserController@getUsers');
   Route::get('/users/{id}', 'API\UserController@getUsersRoom');
   Route::delete('/users/{id}', 'API\UserController@destroy');
-  Route::get('/tokens/{id}', 'API\PassportController@getToken');
+  Route::get('/tokens', 'API\PassportController@getToken');
   Route::delete('/tokens/{id}', 'API\PassportController@revokeAccessToken');
   Route::post('/rooms', 'API\RoomController@createRoom');
   Route::get('/rooms', 'API\RoomController@getAllUserRoom');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,14 +21,17 @@ class PassportController extends Controller
             return $next($request);
         });
     }
-    public function getToken($id)
+    public function getToken()
     {
-        $token = Token::where('id', $id)->first();
-        return response([
-            'id' => $token->id,
-            'username' => $token->user->username,
-            'expires' => $token->expires_at
-        ]);
+        $token = User::find(Auth::guard('api')->user()->id)->token;
+        // $token = Auth::user()->token;
+        // $token = Token::where('id', $id)->first();
+        return response($token);
+        // return response([
+        //     'id' => $token->id,
+        //     'username' => $token->user->username,
+        //     'expires' => $token->expires_at
+        // ]);
     }
     public function revokeToken($id)
     {
