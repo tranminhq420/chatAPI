@@ -46,7 +46,7 @@
     }
     }
 
-###DELETE - /api/user/:userID
+### DELETE - /api/user/:userID
     Deletes a user specified by the userID
     
     Header:
@@ -57,7 +57,7 @@
     "message" : "User deleted"
     }
 
-###POST - /api/rooms
+### POST - /api/rooms
     Creates a chat room
     
     Header:
@@ -72,7 +72,7 @@
     "message" : "Room created"
     }
 
-###GET - /api/rooms
+### GET - /api/rooms
     Gets all chat rooms
     
     Header:
@@ -89,7 +89,7 @@
     ]
     }
 
-###GET - /api/room/:roomID
+### GET - /api/room/:roomID
     Get room
     
     Header:
@@ -113,7 +113,7 @@
     }
     }
 
-###DELETE - /api/room/:roomID
+### DELETE - /api/room/:roomID
     Delete room
     
     Header:
@@ -124,7 +124,7 @@
     "message" : "Room deleted"
     }
 
-###POST - /api/room/:roomID/users
+### POST - /api/room/:roomID/users
     Add user to room
     
     Header:
@@ -139,7 +139,7 @@
     "message" : "Added user to room"
     }
 
-###GET - /api/room/:roomID/users
+### GET - /api/room/:roomID/users
     Get all users in room
     
     Header:
@@ -155,7 +155,7 @@
     ]
     }
 
-###GET - /api/room/:roomID/messages
+### GET - /api/room/:roomID/messages
     Get all messages in room
     
     Header:
@@ -173,7 +173,7 @@
     ]
     }
     
-###GET - /api/room/:roomID/:userID/messages
+### GET - /api/room/:roomID/:userID/messages
     Get all messages by user in room
     
     Header:
@@ -191,7 +191,7 @@
     ]
     }
 
-###POST - /api/room/:roomID/:userID/messages
+### POST - /api/room/:roomID/:userID/messages
     Add message to room
     
     Header:
