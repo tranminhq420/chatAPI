@@ -33,6 +33,7 @@ return new class extends Migration
             $table->unsignedInteger('room_id');
             $table->timestamp('updated_at');
             $table->timestamp('created_at');
+            $table->boolean('seen');
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('room_id')->references('id')->on('rooms');
         });

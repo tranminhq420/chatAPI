@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Room;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use App\Models\Message;
 
@@ -52,7 +52,17 @@ class MessageController extends Controller
      */
     public function getAllMessagesInRoom($id)
     {
-        $room = Room::find($id);
+        try {
+            DB::beginTransaction();
+            $room = Room::find($id);
+            $room->seen = true;
+            DB::commit();
+        } catch (\Exception $exc) {
+            // return response(['error' => $exc->getMessage()]);
+            Log::info('Get message' . $exc);
+            DB::rollback();
+        }
+
         $messages = $room->messages;
         $response = array();
         foreach ($messages as $message) {
