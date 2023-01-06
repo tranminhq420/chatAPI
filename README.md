@@ -1,5 +1,6 @@
-#POST - /api/users
+### POST - /api/users
     Creates a new user and returns a userID
+    
     Header:
     Content-Type : application/json
 
@@ -13,9 +14,9 @@
     "message" : "User created"
     }
 
-
-#GET - /api/users
+### GET - /api/users
     Returns a list of all users
+    
     Header:
     Token : "%Auth Token%"
 
@@ -29,8 +30,9 @@
     ]
     }
 
-#GET - /api/user/:userID
+### GET - /api/user/:userID
     Returns a user
+    
     Header:
     Token : "%Auth Token%"
 
@@ -44,8 +46,9 @@
     }
     }
 
-#DELETE - /api/user/:userID
+###DELETE - /api/user/:userID
     Deletes a user specified by the userID
+    
     Header:
     Token : "%Auth Token%"
 
@@ -54,8 +57,9 @@
     "message" : "User deleted"
     }
 
-#POST - /api/rooms
+###POST - /api/rooms
     Creates a chat room
+    
     Header:
     Token: %tokenID%
 
@@ -68,8 +72,9 @@
     "message" : "Room created"
     }
 
-#GET - /api/rooms
+###GET - /api/rooms
     Gets all chat rooms
+    
     Header:
     Token : "%Auth Token%"
 
@@ -84,8 +89,9 @@
     ]
     }
 
-#GET - /api/room/:roomID
+###GET - /api/room/:roomID
     Get room
+    
     Header:
     Token : "%Auth Token%"
 
@@ -107,8 +113,9 @@
     }
     }
 
-#DELETE - /api/room/:roomID
+###DELETE - /api/room/:roomID
     Delete room
+    
     Header:
     Token : %tokenID%
 
@@ -117,8 +124,9 @@
     "message" : "Room deleted"
     }
 
-#POST - /api/room/:roomID/users
+###POST - /api/room/:roomID/users
     Add user to room
+    
     Header:
     Token : %tokenID%
 
@@ -131,8 +139,9 @@
     "message" : "Added user to room"
     }
 
-#GET - /api/room/:roomID/users
+###GET - /api/room/:roomID/users
     Get all users in room
+    
     Header:
     Token : "%Auth Token%"
 
@@ -146,8 +155,9 @@
     ]
     }
 
-#GET - /api/room/:roomID/messages
+###GET - /api/room/:roomID/messages
     Get all messages in room
+    
     Header:
     Token : %tokenID%
 
@@ -163,8 +173,9 @@
     ]
     }
     
-#GET - /api/room/:roomID/:userID/messages
+###GET - /api/room/:roomID/:userID/messages
     Get all messages by user in room
+    
     Header:
     Token : %tokenID%
 
@@ -180,8 +191,9 @@
     ]
     }
 
-#POST - /api/room/:roomID/:userID/messages
+###POST - /api/room/:roomID/:userID/messages
     Add message to room
+    
     Header:
     Token : %tokenID%
 
