@@ -56,6 +56,7 @@ class MessageController extends Controller
             DB::beginTransaction();
             $room = Room::find($id);
             $room->seen = true;
+            $room->save();
             DB::commit();
         } catch (\Exception $exc) {
             // return response(['error' => $exc->getMessage()]);
